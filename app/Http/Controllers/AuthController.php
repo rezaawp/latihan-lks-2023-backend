@@ -61,12 +61,6 @@ class AuthController extends Controller
         ]), 200);
     }
 
-    public function tes()
-    {
-        # code...
-        return response()->json(['data' => 'data rahasia']);
-    }
-
     public function refresh()
     {
         return response()->json(Formatter::response(200, 'Refresh Success', [
@@ -79,7 +73,7 @@ class AuthController extends Controller
     {
         return response()->json(Formatter::response(200, 'Success', [
             'user'  => Auth::user()
-        ]));
+        ]), 200);
     }
 
     public function logout()
@@ -98,20 +92,12 @@ class AuthController extends Controller
         ]);
 
         if ($validasi->fails()) {
-            return response()->json(Formatter::response(400, 'Validasi Error', $validasi->errors()));
+            return response()->json(Formatter::response(400, 'Validasi Error', $validasi->errors()), 401);
         }
 
         User::find($user)->update([
             'password'      => bcrypt($req['new_password'])
         ]);
-
-        // if (Hash::check($req['old_password'], $user['password'])) {
-        //     return response()->json(['message' => 'success']);
-        //     $user =  User::find($user);
-        //     $user = $user->update([
-        //         'password'      => $req['new_password']
-        //     ]);
-        // }
 
         return response()->json(Formatter::response(200, 'Password Berhasil Di Update', [
             'new_password' => $req['new_password']

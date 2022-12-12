@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PollingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group([
     'middleware'        => 'api',
-    'prefix'            => 'auth',
+    'prefix'            => 'api/auth',
     'controller'        => AuthController::class
 ], function () {
     Route::post('login', 'login')->name('login');
@@ -32,10 +33,11 @@ Route::group([
     Route::post('reset-password', 'resetPassword');
 });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('tes', 'tes');
+Route::group([
+    'middleware'        => 'islogin',
+    'prefix'            => 'v1/api',
+    'controller'        => PollingController::class
+], function () {
+    Route::post('poll', 'store');
+    Route::get('poll', 'getData');
 });
-
-// Route::get('tes', function () {
-//     return 'hai';
-// });

@@ -19,7 +19,7 @@ class IsLoginMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check()) {
-            return response()->json(Formatter::response(401, 'Unauthorized'));
+            return response()->json(Formatter::response(401, 'Unauthorized'), 401);
         }
         return $next($request);
     }
