@@ -13,7 +13,7 @@ class AuthController extends Controller
     //
     function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('islogin', ['except' => ['login', 'register']]);
     }
 
     public function register(Request $req)
@@ -24,8 +24,6 @@ class AuthController extends Controller
             'email'         => $req['email'],
             'password'      => bcrypt($req['password'])
         ];
-
-        // return response()->json(['result' => $data]);
 
         $validasi = Validator::make($req->all(), [
             'name'          => ['required', 'string', 'min:4'],
@@ -51,21 +49,15 @@ class AuthController extends Controller
 
         $token = Auth::attempt($credentials);
         if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+            return response()->json(Formatter::response(401, 'Unauthorized'), 401);
         }
 
         $user = Auth::user();
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        return response()->json(Formatter::response(200, 'Success Login', [
+            'access_token'          => $token,
+            'token_type'            => 'Bearer',
+            'expired'               => env('JWT_TTL')
+        ]), 200);
     }
 
     public function tes()
@@ -76,13 +68,23 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        return response()->json([
-            'status' => 'success',
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-            ]
-        ]);
+        return response()->json(Formatter::response(200, 'Refresh Success', [
+            'access_token'     => Auth::refresh(),
+            'type'             => 'Bearer'
+        ]));
+    }
+
+    public function me(Request $req)
+    {
+        return response()->json(Formatter::response(200, 'Success', [
+            'user'  => Auth::user()
+        ]));
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return response()->json(Formatter::response(200, 'Success Logout'), 200);
     }
 }
