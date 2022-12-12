@@ -29,6 +29,7 @@ Route::group([
     Route::post('refresh', 'refresh');
     Route::post('logout', 'logout');
     Route::post('me', 'me');
+    Route::post('reset-password', 'resetPassword');
 });
 
 Route::controller(AuthController::class)->group(function () {

@@ -6,6 +6,7 @@ use App\Helpers\Formatter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -49,7 +50,7 @@ class AuthController extends Controller
 
         $token = Auth::attempt($credentials);
         if (!$token) {
-            return response()->json(Formatter::response(401, 'Unauthorized'), 401);
+            return response()->json(Formatter::response(401, 'Username atau password salah'), 401);
         }
 
         $user = Auth::user();
@@ -86,5 +87,34 @@ class AuthController extends Controller
         Auth::logout();
 
         return response()->json(Formatter::response(200, 'Success Logout'), 200);
+    }
+
+    public function resetPassword(Request $req)
+    {
+        $user = Auth::user()->id;
+
+        $validasi = Validator::make($req->all(), [
+            'old_password'      => 'current_password:api'
+        ]);
+
+        if ($validasi->fails()) {
+            return response()->json(Formatter::response(400, 'Validasi Error', $validasi->errors()));
+        }
+
+        User::find($user)->update([
+            'password'      => bcrypt($req['new_password'])
+        ]);
+
+        // if (Hash::check($req['old_password'], $user['password'])) {
+        //     return response()->json(['message' => 'success']);
+        //     $user =  User::find($user);
+        //     $user = $user->update([
+        //         'password'      => $req['new_password']
+        //     ]);
+        // }
+
+        return response()->json(Formatter::response(200, 'Password Berhasil Di Update', [
+            'new_password' => $req['new_password']
+        ]));
     }
 }
