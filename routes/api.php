@@ -41,4 +41,5 @@ Route::group([
     Route::post('poll', 'store');
     Route::get('poll', 'getData');
     Route::get('poll/{id}', 'getSpecificData');
+    Route::post('poll/{poll_id}/vote/{choice_id}', 'vote');
 });

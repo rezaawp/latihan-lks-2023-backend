@@ -6,6 +6,7 @@ use App\Helpers\Formatter;
 use App\Helpers\Role;
 use App\Models\Choises;
 use App\Models\Polling;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -88,15 +89,15 @@ class PollingController extends Controller
                 $count_polling += $c['vote'];
             }
 
-            return [
-                'dl_asli'   => $data['deadline'],
-                'date_asli' => date('Y-m-d'),
-                'dl'        => strtotime($data['deadline']),
-                'date'      => strtotime(date('Y-m-d')),
-                'logika'    => (strtotime($data['deadline']) > strtotime(date('Y-m-d')))
-            ];
+            // return [
+            //     'dl_asli'   => $data['deadline'],
+            //     'date_asli' => date('Y-m-d'),
+            //     'dl'        => strtotime($data['deadline']),
+            //     'date'      => strtotime(date('Y-m-d')),
+            //     'logika'    => (strtotime($data['deadline']) < strtotime(date('Y-m-d')))
+            // ];
 
-            if ($count_polling <= 0 && strtotime($data['deadline']) < strtotime(date('Y-m-d'))) {
+            if ($count_polling <= 0 && !(strtotime($data['deadline']) < strtotime(date('Y-m-d')))) {
                 return response()->json(Formatter::response(503, "Data tidak akan kami tampilkan jika hasil polling belum ada dan tanggal tersebut belum melewati batas ketentuan"), 503);
             }
 
@@ -106,6 +107,37 @@ class PollingController extends Controller
         if (Role::isUser()) {
             return response()->json(Formatter::response(200, 'Get succes data', $data), 200);
         }
+    }
+
+    public function vote($poll_id, $choice_id, Request $req)
+    {
+        $data = Choises::where([
+            'id'            => $choice_id,
+            'polling_id'    => $poll_id
+        ])->first();
+
+        $me = Vote::where('user_id', Auth::user()->id)->first();
+
+        if ($me) {
+            return response()->json(Formatter::response(400, 'U has been voted'), 400);
+        }
+
+        if (!$data) {
+            return response()->json(Formatter::response(503, 'Data no available', $data));
+        }
+
+        Vote::create([
+            'id'            => Str::uuid(),
+            'choise_id'     => (string)$choice_id,
+            'user_id'       => Auth::user()->id,
+            'polling_id'    => (string)$poll_id
+        ]);
+
+        $data->update([
+            'count'     => $data['count'] + 1
+        ]);
+
+        return response()->json(Formatter::response(200, 'Success vote', $data));
     }
 
     public function delete(Request $req)
