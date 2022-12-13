@@ -1,10 +1,8 @@
 # Register
 
-The background color should be `#ffffff` for light mode and `#0d1117` 
-
 Request :
 * Method : POST
-* Endpoint : /api/auth/register
+* Endpoint : `/api/auth/register`
 * Header :
   - Content-Type : application/json
   - Accept : application/json
