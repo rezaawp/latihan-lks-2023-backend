@@ -1,11 +1,20 @@
-# Register
+# API Spec
+
+## Authentication
+
+All API must use this authentication
+
+Request : 
+* Header :
+    - Authorization : Bearer token
+    - Content-Type : application/json
+    - Accept : application/json
+
+## Register
 
 Request :
 * Method : POST
 * Endpoint : `/api/auth/register`
-* Header :
-  - Content-Type : application/json
-  - Accept : application/json
 * Body :
 ```json
 {
@@ -16,7 +25,7 @@ Request :
 }
 ```
 
-Response :
+Response (200) :
 ```json
 {
     "status" : "integer",
@@ -29,3 +38,49 @@ Response :
     }
 }
 ```
+
+## Login
+
+Request : 
+* Method : POST
+* Endpoint : `/api/auth/login`
+* Body :
+```json
+{
+    "email" : "string|email",
+    "password" : "string,min:8"
+}
+```
+
+Response (200) :
+```json
+{
+    "status" : "integer",
+    "message" : "string",
+    "data" : {
+        "access_token" : "string",
+        "token_type" : "string",
+        "expired" : "integer"
+    }
+}
+
+## Forgot Password
+
+Request : 
+* Method : POST
+* Endpoint : /api/auth/reset-password
+* Body : 
+```json
+{
+    "old_password" : "required, min:8",
+    "new_password" : "required, min:8"
+}
+```
+
+Response (200) :
+```json
+{
+    "status" : "integer"
+}
+```
+
