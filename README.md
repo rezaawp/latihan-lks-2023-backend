@@ -2,7 +2,7 @@
 
 ## Authentication
 
-All API must use this authentication
+All API must use this Request Headers
 
 Request : 
 * Header :
@@ -63,6 +63,7 @@ Response (200) :
         "expired" : "integer"
     }
 }
+```
 
 ## Forgot Password
 
