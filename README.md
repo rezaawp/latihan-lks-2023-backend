@@ -65,7 +65,7 @@ Response (200) :
 }
 ```
 
-## Forgot Password
+## Change Password
 
 Request : 
 * Method : POST
