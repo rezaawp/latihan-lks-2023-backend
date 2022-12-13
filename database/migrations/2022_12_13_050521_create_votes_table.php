@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('choise_id');
             $table->integer('user_id');
+            $table->foreign('polling_id')->references('id')->on('pollings')->onDelete('cascade');
             $table->uuid('polling_id');
             $table->timestamps();
         });

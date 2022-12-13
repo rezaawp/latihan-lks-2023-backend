@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('choises', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('polling_id');
+            $table->foreign('polling_id')->references('id')->on('pollings')->onDelete('cascade');
             $table->string('choise_name');
             $table->integer('count')->default(0);
             $table->timestamps();

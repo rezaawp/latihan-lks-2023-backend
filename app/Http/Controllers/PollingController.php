@@ -86,7 +86,7 @@ class PollingController extends Controller
             $count_polling = 0;
 
             foreach ($data['choises'] as $c) {
-                $count_polling += $c['vote'];
+                $count_polling += $c['count'];
             }
 
             // return [
@@ -140,8 +140,14 @@ class PollingController extends Controller
         return response()->json(Formatter::response(200, 'Success vote', $data));
     }
 
-    public function delete(Request $req)
+    public function destroy($id, Request $req)
     {
         # code...
+        $data = Polling::find($id);
+        if (!$data) {
+            return response()->json(Formatter::response(400, 'Data no availabe'), 400);
+        }
+        $data->delete();
+        return response()->json(Formatter::response(200, 'Success delete data', $data), 200);
     }
 }

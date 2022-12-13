@@ -42,4 +42,5 @@ Route::group([
     Route::get('poll', 'getData');
     Route::get('poll/{id}', 'getSpecificData');
     Route::post('poll/{poll_id}/vote/{choice_id}', 'vote');
+    Route::delete('poll/{id}', 'destroy');
 });

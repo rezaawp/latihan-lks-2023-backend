@@ -23,13 +23,17 @@ class AuthController extends Controller
         $data = [
             'name'          => $req['name'],
             'email'         => $req['email'],
-            'password'      => bcrypt($req['password'])
+            'password'      => bcrypt($req['password']),
+            'role'          => $req['role']
         ];
 
         $validasi = Validator::make($req->all(), [
             'name'          => ['required', 'string', 'min:4'],
             'email'         => ['required', 'email'],
-            'password'      => ['min:8']
+            'password'      => ['min:8'],
+            'role'          => ['required', 'in:user,admin']
+        ], [
+            'role.in'       => "Silahkan masukan 'user' atau 'admin'"
         ]);
 
         if ($validasi->fails()) {
