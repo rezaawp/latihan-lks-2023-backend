@@ -5,6 +5,7 @@ Request :
 * Header :
   - Content-Type : application/json
   - Accept : application/json
+* Body :
 ```json
 {
     "name" : "required, string, min:4",
