@@ -1,5 +1,5 @@
 Request :
-``` 
+```json
 {
     "name": "required, string, min:4",
     "email": "required, email",
@@ -9,7 +9,7 @@ Request :
 ```
 
 Response :
-```
+```json
 {
     "status": "integer",
     "message": "string",
