@@ -5,7 +5,7 @@
 All API must use this Request Headers
 
 Request : 
-* Header :
+* Headers :
     - Authorization : Bearer token
     - Content-Type : application/json
     - Accept : application/json
