@@ -1,4 +1,3 @@
-<small>
 # Register
 Request :
 * Method : POST
@@ -28,4 +27,3 @@ Response :
     }
 }
 ```
-</small>
