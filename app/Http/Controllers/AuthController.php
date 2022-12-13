@@ -41,6 +41,8 @@ class AuthController extends Controller
         }
 
         User::create($data);
+
+        $data['password'] = null;
         return response()->json(Formatter::response(201, 'Register Berhasil', $data));
     }
 
