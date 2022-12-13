@@ -69,7 +69,7 @@ Response (200) :
 
 Request : 
 * Method : POST
-* Endpoint : /api/auth/reset-password
+* Endpoint : `/api/auth/reset-password`
 * Body : 
 ```json
 {
