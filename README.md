@@ -1,10 +1,11 @@
+# Register
 Request :
 ```json
 {
     "name": "required, string, min:4",
     "email": "required, email",
     "possword": "min:8",
-    "role": "required, enum('admin', 'user')
+    "role": "required, enum('admin', 'user')"
 }
 ```
 
