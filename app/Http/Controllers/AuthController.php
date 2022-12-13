@@ -94,7 +94,8 @@ class AuthController extends Controller
         $user = Auth::user()->id;
 
         $validasi = Validator::make($req->all(), [
-            'old_password'      => 'current_password:api'
+            'old_password'      => 'current_password:api',
+            'new_password'      => ['required', 'min:8']
         ]);
 
         if ($validasi->fails()) {
@@ -106,7 +107,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json(Formatter::response(200, 'Password Berhasil Di Update', [
-            'new_password' => $req['new_password']
+            'new_password' => bcrypt($req['new_password'])
         ]));
     }
 }

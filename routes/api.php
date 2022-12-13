@@ -30,7 +30,7 @@ Route::group([
     Route::post('refresh', 'refresh');
     Route::post('logout', 'logout');
     Route::post('me', 'me');
-    Route::post('reset-password', 'resetPassword');
+    Route::post('change-password', 'resetPassword');
 });
 
 Route::group([
