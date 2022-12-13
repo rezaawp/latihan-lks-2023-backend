@@ -1,5 +1,10 @@
 # Register
 Request :
+* Method : POST
+* Endpoint : /api/auth/register
+* Header :
+  - Content-Type : application/json
+  - Accept : application/json
 ```json
 {
     "name" : "required, string, min:4",
