@@ -81,7 +81,175 @@ Request :
 Response (200) :
 ```json
 {
-    "status" : "integer"
+    "status" : "integer",
+    "message" : "string",
+    "data" : {
+        "new_password" : "string"
+    }
 }
 ```
 
+## User
+* Request : POST
+* Endpoint : `/api/auth/me`
+
+Response (200) : 
+```json
+{
+    "status" : "integer",
+    "message" : "string",
+    "data" : {
+        "user" : {
+            "id" : "integer",
+            "name" : "string",
+            "email" : "string|email",
+            "email_verified_at" : null,
+            "role" : "string",
+            "created_at" : "timestamps",
+            "updated_at" : "timestamps"
+        }
+    }
+}
+```
+
+## Refresh Token
+
+Request : 
+* Method : POST
+* Endpoint : `/api/auth/refresh`
+
+Response (200) : 
+```json
+{
+    "status" : "integer",
+    "message" : "string",
+    "data" : {
+        "access_token" : "string",
+        "token_type" : "string",
+        "expired" : "integer"
+    }
+}
+```
+
+## Logout
+
+Request : 
+* Method : POST
+* Endpoint : `/api/auth/logout`
+
+Response (200) :
+```json
+{
+    "status" : "integer",
+    "message" : "string",
+    "data" : "array|null"
+}
+```
+
+## Create Polling
+Request : 
+* Method : POST
+* Endpoint : `/v1/api/poll`
+* Body : 
+```json
+{
+    "title" : "required, string, min:4",
+    "description" : "required, string, min:7",
+    "deadline" : "required, date",
+    "choises" : "required, array, min:2"
+}
+```
+
+Response (200 ):
+```json
+{
+    "status" : "integer",
+    "message" : "string",
+    "data" : {
+        "id" : "uuid",
+        "title" : "string",
+        "description" :  "string",
+        "deadline" : "date",
+        "user_id" : "integer",
+        "choises" : "array"
+    }
+}
+```
+
+## Get All Pollings
+Request : 
+* Method : GET
+* Endpoint : `/v1/api/polls`
+
+Response (200) : 
+```json
+{
+    "status": "integer",
+    "message": "string",
+    "data": [
+        {
+          "id": "uuid",
+          "title": "string",
+          "description": "string",
+          "deadline": "date",
+          "user_id": "integer",
+          "created_at": "timestamps",
+          "updated_at": "timestamps"
+        }
+    ]
+}
+```
+
+## Get Specific Polling
+Request : 
+* Method : GET
+* Endpoint : `/v1/api/poll/{uuid}`
+
+Response (200) : 
+```json
+{
+  "status": "integer",
+  "message": "string",
+  "data": {
+    "id": "uuid",
+    "title": "string",
+    "description": "string",
+    "deadline": "date",
+    "user_id": "integer",
+    "created_at": "timestamps",
+    "updated_at": "timestamps",
+    "choises": [
+      {
+        "id": "uuid",
+        "polling_id": "uuid",
+        "choise_name": "string",
+        "count": "integer",
+        "created_at": "timestamps",
+        "updated_at": "timestamps",
+        "vote": "integer"
+      },
+      {
+        "id": "uuid",
+        "polling_id": "uuid",
+        "choise_name": "string",
+        "count": "integer",
+        "created_at": "timestamps",
+        "updated_at": "timestamps",
+        "vote": "integer"
+      }
+    ]
+  }
+}
+```
+
+## Vote
+Request : 
+* Method : POST
+* Endpoint : `/v1/api/poll/vote`
+* Body : 
+```json
+{
+    "choice_uuid" : "uuid",
+    "poll_uuid" : "uuid"
+}
+```
