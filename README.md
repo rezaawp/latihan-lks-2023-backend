@@ -226,7 +226,7 @@ Response (200) :
         "count": "integer",
         "created_at": "timestamps",
         "updated_at": "timestamps",
-        "vote": "integer"
+        "vote": "object"
       },
       {
         "id": "uuid",
@@ -235,7 +235,7 @@ Response (200) :
         "count": "integer",
         "created_at": "timestamps",
         "updated_at": "timestamps",
-        "vote": "integer"
+        "vote": "object"
       }
     ]
   }
