@@ -39,8 +39,8 @@ Route::group([
     'controller'        => PollingController::class
 ], function () {
     Route::post('poll', 'store');
-    Route::get('poll', 'getData');
+    Route::get('polls', 'getData');
     Route::get('poll/{id}', 'getSpecificData');
-    Route::post('poll/{poll_id}/vote/{choice_id}', 'vote');
+    Route::post('poll/vote', 'vote');
     Route::delete('poll/{id}', 'destroy');
 });

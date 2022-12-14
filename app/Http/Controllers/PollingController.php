@@ -63,7 +63,7 @@ class PollingController extends Controller
             ]);
         }
 
-        $data[] = $choises;
+        $data = array_merge($data, ['choises' => $choises]);
 
         return response()->json(Formatter::response(200, 'Success Input', $data), 200);
     }
@@ -109,8 +109,11 @@ class PollingController extends Controller
         }
     }
 
-    public function vote($poll_id, $choice_id, Request $req)
+    public function vote(Request $req)
     {
+        $choice_id = $req['choice_uuid'];
+        $poll_id = $req['poll_uuid'];
+
         $data = Choises::where([
             'id'            => $choice_id,
             'polling_id'    => $poll_id

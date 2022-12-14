@@ -71,7 +71,8 @@ class AuthController extends Controller
     {
         return response()->json(Formatter::response(200, 'Refresh Success', [
             'access_token'     => Auth::refresh(),
-            'type'             => 'Bearer'
+            'type'             => 'Bearer',
+            'expired'          => env('JWT_TTL')
         ]));
     }
 
