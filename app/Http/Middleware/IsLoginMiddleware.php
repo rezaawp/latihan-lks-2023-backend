@@ -21,6 +21,8 @@ class IsLoginMiddleware
         if (!Auth::check()) {
             return response()->json(Formatter::response(401, 'Unauthorized'), 401);
         }
-        return $next($request);
+        return $next($request)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'POST');
     }
 }

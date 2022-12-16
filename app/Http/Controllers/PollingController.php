@@ -26,7 +26,11 @@ class PollingController extends Controller
         ]);
 
         if ($validasi->fails()) {
-            return response()->json(Formatter::response(402, 'Validasi error', $validasi->errors()), 402);
+            return response()->json(Formatter::response(
+                402,
+                'Validasi error',
+                $validasi->errors()
+            ), 402);
         }
 
         $choises = (array)$req['choises'];
