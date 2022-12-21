@@ -63,7 +63,8 @@ class AuthController extends Controller
         return response()->json(Formatter::response(200, 'Success Login', [
             'access_token'          => $token,
             'token_type'            => 'Bearer',
-            'expired'               => env('JWT_TTL')
+            'expired'               => env('JWT_TTL'),
+            'user'                  => Auth::user()
         ]), 200);
     }
 
