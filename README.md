@@ -60,7 +60,16 @@ Response (200) :
     "data" : {
         "access_token" : "string",
         "token_type" : "string",
-        "expired" : "integer"
+        "expired" : "integer",
+        "user" : {
+            "id" : "integer",
+            "name" : "string",
+            "email" : "string|email",
+            "email_verified_at" : null,
+            "role" : "string",
+            "created_at" : "timestamps",
+            "updated_at" : "timestamps"
+        }
     }
 }
 ```
